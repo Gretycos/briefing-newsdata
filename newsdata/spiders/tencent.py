@@ -28,9 +28,10 @@ class TencentSpider(scrapy.Spider):
             item['title'] = news['title']
             item['tags'] = [t['tag_word'] for t in news['tags']]
             item['publish_time'] = news['publish_time']
-            publish_date = datetime.strptime(item['publish_time'], '%Y-%m-%d %H:%M:%S').date()
-            if publish_date != self.today + timedelta(days=-1):
-                continue
+            if 0 <= datetime.now().hour <= 8:
+                publish_date = datetime.strptime(item['publish_time'], '%Y-%m-%d %H:%M:%S').date()
+                if publish_date != self.today + timedelta(days=-1):
+                    continue
             item['images'] = []
             img_url= []
             yield scrapy.Request(url=item['url'], meta={
@@ -56,5 +57,3 @@ class TencentSpider(scrapy.Spider):
             item['images_urls'] = img_url
 
             yield item
-
-

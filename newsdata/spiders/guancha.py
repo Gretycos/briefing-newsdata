@@ -21,9 +21,10 @@ class GuanchaSpider(scrapy.Spider):
             item['url'] = 'https://www.guancha.cn{}'.format(news.xpath("./h4[@class='module-title']/a/@href").get())
             item['title'] = news.xpath("string(./h4[@class='module-title']/a)").get()
             item['publish_time'] = news.xpath("string(./div[@class='module-interact']/span)").get()
-            publish_date = datetime.strptime(item['publish_time'],'%Y-%m-%d %H:%M:%S').date()
-            if publish_date != self.today + timedelta(days=-1):
-                continue
+            if 0 <= datetime.now().hour <= 8:
+                publish_date = datetime.strptime(item['publish_time'], '%Y-%m-%d %H:%M:%S').date()
+                if publish_date != self.today + timedelta(days=-1):
+                    continue
             item['images'] = []
             img_url = []
             yield scrapy.Request(url=item['url'], callback=self.contentParse, cb_kwargs=dict(item=item, img_url=img_url))

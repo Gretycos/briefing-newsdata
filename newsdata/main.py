@@ -12,11 +12,11 @@ def main():
     # 获取 spiderloader 对象，以进一步获取项目下所有爬虫名称
     spider_loader = SpiderLoader(get_project_settings())
 
-    # for spidername in spider_loader.list():
-    #     process.crawl(spidername)
+    for spidername in spider_loader.list():
+        process.crawl(spidername)
 
     # process.crawl('chinanews')
-    process.crawl('tencent')
+    # process.crawl('tencent')
     # process.crawl('guancha')
 
     # 执行

@@ -24,9 +24,10 @@ class ChinanewsSpider(scrapy.Spider):
                 continue
             item['title'] = news['title']
             item['publish_time'] = news['pubtime']
-            publish_date = datetime.strptime(item['publish_time'], '%Y-%m-%d %H:%M:%S').date()
-            if publish_date != self.today + timedelta(days=-1):
-                continue
+            if 0 <= datetime.now().hour <= 8:
+                publish_date = datetime.strptime(item['publish_time'], '%Y-%m-%d %H:%M:%S').date()
+                if publish_date != self.today + timedelta(days=-1):
+                    continue
             item['images'] = []
             img_url = []
             yield scrapy.Request(url=item['url'], callback=self.contentParse, cb_kwargs=dict(item=item, img_url=img_url))
